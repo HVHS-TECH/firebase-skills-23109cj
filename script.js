@@ -19,9 +19,28 @@ const HTML_OUTPUT = document.getElementById("databaseOutput");
 /**************************************************************/
 function helloWorld(){
   console.log("Running helloWorld()")
-  firebase.database().ref('/').set(
+  firebase.database().ref('/start').set(
     {
-      message: 'Hello World!'
+      message: 'Hello World'
     }
   )
+}
+
+function goodbyeWorld(){
+  console.log("Running goodbyeWorld()")
+  firebase.database().ref('/end').set(
+    {
+      message: 'Goodbye Cruel World'
+    }
+  )
+}
+
+function simpleRead(){
+  console.log('simpleRead()');
+  firebase.database().ref('/end').child('message').once('value', displayRead);
+}
+
+function displayRead(snapshot){
+  console.log('running displayRead(), the message is: ' + snapshot.val());
+  HTML_OUTPUT.innerHTML = snapshot.val();
 }

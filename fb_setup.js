@@ -8,19 +8,15 @@
 // Return: n/a
 /**************************************************************/
   const firebaseConfig = {
-    apiKey: ,
-    authDomain: ,
-    databaseURL: ,
-    projectId: ,
-    storageBucket: ,
-    messagingSenderId:,
-    appId:
+    apiKey: "AIzaSyBqEGxEAIyZf0FYWQExN9kQf-DeW-ricAk",
+    authDomain: "cameronjohns12comp.firebaseapp.com",
+    databaseURL: "https://cameronjohns12comp-default-rtdb.firebaseio.com",
+    projectId: "cameronjohns12comp",
+    storageBucket: "cameronjohns12comp.firebasestorage.app",
+    messagingSenderId: "709847310417",
+    appId: "1:709847310417:web:5611dd24bcbfdda7e45870"
   };
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-  // This log prints the firebase object to the console to show that it is working.
-  // As soon as you have the script working, delete this log.
-  console.log("Firebase initialize finished:");
-  console.log(firebase);
