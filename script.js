@@ -19,13 +19,15 @@ const HTML_OUTPUT = document.getElementById("databaseOutput");
 /**************************************************************/
 let highscoreTable = {
   users: {
-    alice:300,
-    bob:300,
-    charlie:10,
-    david:55,
-    eve:600
+    alice:-300,
+    bob:-300,
+    charlie:-10,
+    david:-55,
+    eve:-600
   }
 }
+let name = prompt('please enter your name');
+  let score = -1 * prompt('please enter your score');
 
 function helloWorld(){
   console.log("Running helloWorld()")
@@ -63,8 +65,7 @@ function readListener(){
 }
 
 function complexWrite(){
-  let name = prompt('please enter your name');
-  let score = prompt('please enter your score');
+  
   console.log('complexWrite');
   firebase.database().ref('/highscoreTable').set(
     highscoreTable
@@ -79,5 +80,27 @@ function complexRead(){
 
 function displayComplexRead(snapshot){
   console.log(snapshot.val());
-  HTML_OUTPUT.innerHTML = snapshot.val();
+  let highscores = snapshot.val()
+  HTML_OUTPUT.innerHTML = name + "'s score was " + highscores[name];
+
+  let usernames = Object.keys(highscores);
+  console.log(usernames)
+
+  for(i=0; i< usernames.length; i++){
+    let key = usernames[i];
+    console.log(key + "'s score is: " + highscores[key])
+  }
+}
+
+
+function sort(){
+  firebase.database().ref('/highscoreTable/users').orderByValue().once('value', sortComplexRead);
+}
+
+function sortComplexRead(snapshot){
+    snapshot.forEach(showScore)
+}
+
+function showScore(child){
+  console.log(child.key + " got " + -1 * child.val() + " points")
 }
