@@ -26,8 +26,8 @@ let highscoreTable = {
     eve:-600
   }
 }
-let name = prompt('please enter your name');
-  let score = -1 * prompt('please enter your score');
+//let name = prompt('please enter your name');
+  //let score = -1 * prompt('please enter your score');
 
 function helloWorld(){
   console.log("Running helloWorld()")
@@ -94,7 +94,7 @@ function displayComplexRead(snapshot){
 
 
 function sort(){
-  firebase.database().ref('/highscoreTable/users').orderByValue().once('value', sortComplexRead);
+  firebase.database().ref('/highscoreTable/users').orderByValue().limitToFirst(3).once('value', sortComplexRead);
 }
 
 function sortComplexRead(snapshot){
@@ -103,4 +103,33 @@ function sortComplexRead(snapshot){
 
 function showScore(child){
   console.log(child.key + " got " + -1 * child.val() + " points")
+  document.getElementById('databaseOutput').innerHTML += `<br><h3>` + child.key + " got " + -1*child.val() + " points";
+}
+
+function fb_login(){
+  console.log('logging in');
+  firebase.auth().onAuthStateChanged((user) => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+    // This gives you a Google Access Token.
+    var token = result.credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+    });
+    if (user) {
+      console.log('loggedin')
+      console.log(user)
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/v8/firebase.User
+      var uid = user.uid;
+      var profileLink = user.photoURL;
+      document.getElementById('output').innerHTML = `Output <img id="profilePic">`;
+      document.getElementById('profilePic').src=profileLink;
+      // ...
+    } else {
+      console.log('not logged in')
+      // User is signed out
+      // ...
+    }
+  });
 }
